@@ -1,0 +1,73 @@
+﻿@page "/InsertarCarrera"
+
+@using Microsoft.AspNetCore.Components.Forms;
+@using Microsoft.AspNetCore.Components.Routing;
+
+@using static Servicios.CarreraServicios;
+@using Entidades.Modelos
+@using Servicios
+
+@inject CarreraServicios carreraServicios;
+@inject NavigationManager navigationManager;
+
+<h3>Insertar Carrera</h3>
+
+<div class="container w-75">
+    <h4 class="fw-bold mb-3 mt-3">Gestión de carreras</h4>
+    <EditForm Model="carrera" OnValidSubmit="@(()=> click_InsertarCarrera())">
+        <DataAnnotationsValidator></DataAnnotationsValidator>
+        <div class="form-group border p-4 rounded">
+            <div class="row mb-3">
+                <div class="col-12 col-lg-3">
+                    <div class="form-group mb-3">
+                        <label for="claveCarrera" class="form-label">Clave</label>
+                        <InputText id="claveCarrera" class="form-control" @bind-Value="carrera.ClaveCarrera" />
+                        <ValidationMessage For="@(() => carrera.ClaveCarrera)" />
+                    </div>
+                </div>
+                <div class="col-12 col-lg-3">
+                    <div class="form-group mb-3">
+                        <label for="nombreCarrera" class="form-label">Nombre</label>
+                        <InputText id="nombreCarrera" class="form-control" @bind-Value="carrera.NombreCarrera" />
+                        <ValidationMessage For="@(() => carrera.NombreCarrera)" />
+                    </div>
+                </div>
+                <div class="col-12 col-lg-3">
+                    <div class="form-group mb-3">
+                        <label for="aliasCarrera" class="form-label">Alias</label>
+                        <InputText id="aliasCarrera" class="form-control" @bind-Value="carrera.AliasCarrera" />
+                        <ValidationMessage For="@(() => carrera.AliasCarrera)" />
+                    </div>
+                </div>
+                <div class="col-12 col-lg-3">
+                    <div class="form-group mb-3">
+                        <div class="form-check">
+                            <InputCheckbox id="estadoCarrera" class="form-check-input" @bind-Value="carrera.EstadoCarrera" />
+                            <label for="estadoCarrera" class="form-check-label">Estado</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="card-footer">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-12 d-flex justify-content-end">
+                        <button type="submit" class="btn btn-success m-3 mt-0">Insertar</button>
+                        <NavLink class="btn btn-primary m-3 mt-0" href="/ListarCarreras">Listar Carreras</NavLink>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </EditForm>
+</div>
+
+@code {
+    private E_Carrera carrera { get; set; } = new E_Carrera();
+    private async Task click_InsertarCarrera()
+    {
+        string msg = await carreraServicios.InsertarCarrera(carrera);
+    }
+}
