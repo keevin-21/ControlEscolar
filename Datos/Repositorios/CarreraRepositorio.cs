@@ -38,9 +38,13 @@ namespace Datos.Repositorios
             return await _bd.Carreras.ToListAsync();
         }
 
-        public Task ModificarCarrera(E_Carrera carrera)
+        public async Task ModificarCarrera(E_Carrera carrera)
         {
-            throw new NotImplementedException();
+            if (idCarrera != carrera.IdCarrera)
+            {
+                bd.Carreras.Update(carrera);
+                await bd.SaveChangesAsync();
+            }
         }
 
         public Task<E_Carrera> ObtenerCarreraPorId(int idCarrera)
